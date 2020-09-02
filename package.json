@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.2.1",
     "antd": "^4.6.2",
     "axios": "^0.20.0",
+    "cryptocurrency-icons": "^0.16.1",
     "moment": "^2.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -37,5 +38,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-test-renderer": "^16.13.1"
   }
 }
