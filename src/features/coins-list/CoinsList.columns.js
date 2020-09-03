@@ -5,7 +5,7 @@ import { icons } from '../../icons'
 const { Text } = Typography
 
 function valueMinusOrPlus(text) {
-  return parseInt(text.slice(1)) > 0
+  return parseFloat(text.slice(1)) < 0
 }
 
 function columns() {
@@ -41,11 +41,11 @@ function columns() {
       key: 'change24H',
       render: text => (
         valueMinusOrPlus(text) ?
-        <Text type="success">
+        <Text type="danger">
           {text}
         </Text>
         :
-        <Text type="danger">
+        <Text type="success">
           {text}
         </Text>
       )

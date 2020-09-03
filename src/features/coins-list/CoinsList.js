@@ -6,26 +6,30 @@ import {
 
 import columns from './CoinsList.columns'
 
-import { fetchCoinsList } from './CoinsList.actions'
+import { getCoinsList } from './CoinsList.actions'
 
 function CoinsList({
-  fetchCoinsList,
+  getCoinsList,
   fetchingCoins,
   coins,
   currency,
+  history,
 }) {
 
   useEffect(() => {
-    fetchCoinsList(currency)
-    const timeId = setTimeout(() => fetchCoinsList(currency), 60000)
+    getCoinsList(currency)
+    const timeId = setTimeout(() => getCoinsList(currency), 60000)
 
     return () => clearTimeout(timeId)
 
-  }, [fetchCoinsList, currency])
+  }, [getCoinsList, currency])
 
   return (
     <Table
       size="small"
+      onRow={({ symbol: coinID }) => ({
+        onClick: () => history.push(`/coin/${coinID}`)
+      })}
       rowKey="id"
       loading={fetchingCoins}
       dataSource={coins}
@@ -42,6 +46,6 @@ export default connect(
     currency: coinsList.currency,
   }),
   {
-    fetchCoinsList
+    getCoinsList
   }
 )(CoinsList)

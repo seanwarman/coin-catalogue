@@ -1,5 +1,5 @@
 import {
-  FETCHING_COINS_LIST,
+  GET_COINS_LIST,
   UPDATE_COINS_LIST,
   FETCHING_COINS_FAILED,
 } from './CoinsList.actions'
@@ -13,7 +13,7 @@ export default function coinsListReducer(state = {
 
 }, action) {
   switch (action.type) {
-    case FETCHING_COINS_LIST:
+    case GET_COINS_LIST:
       return {
         ...state,
         fetchingCoins: true,
@@ -24,7 +24,7 @@ export default function coinsListReducer(state = {
       return {
         ...state,
         fetchingCoins: false,
-        coins: formatCoinsData(state.currency, action.coins),
+        coins: formatCoinsData(action),
         error: null,
       }
     case FETCHING_COINS_FAILED:
@@ -38,16 +38,21 @@ export default function coinsListReducer(state = {
   }
 }
 
-function formatCoinsData(currency, data) {
-
+function formatCoinsData({ data, currency }) {
   return data.map(d => {
+
+    const coinInfo = d?.coinInfo || {}
+    const display = d?.DISPLAY || {}
+    const displayData = display[currency] || {}
+
     return {
-      id:     d.CoinInfo.Id,
-      symbol: d.CoinInfo.Name,
-      name:   d.CoinInfo.FullName,
-      price:  d.DISPLAY[currency].PRICE,
-      change24H: d.DISPLAY[currency].CHANGE24HOUR,
+      id:     coinInfo.Id,
+      symbol: coinInfo.Name,
+      name:   coinInfo.FullName,
+      price:  displayData.PRICE,
+      change24H: displayData.CHANGE24HOUR,
     }
   })
 
 }
+

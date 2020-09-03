@@ -1,10 +1,32 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import {
+  getCoin
+} from './Coin.actions'
 
-function Coin() {
+function Coin({
+  match,
+  getCoin
+}) {
+
+  const { coinID } = match.params
+
+  useEffect(() => {
+
+    if(coinID) getCoin(coinID)
+    
+  }, [getCoin, coinID])
+
   return (
     <div id="coin">COIN!</div>
   )
 }
 
-export default connect()(Coin)
+export default connect(
+  ({ coinsList }) => ({
+    currency: coinsList.currency
+  }),
+  {
+    getCoin
+  }
+)(Coin)

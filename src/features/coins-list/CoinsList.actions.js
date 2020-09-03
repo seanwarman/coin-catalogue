@@ -1,15 +1,15 @@
-export const FETCHING_COINS_LIST   = 'coinsList/FETCHING_COINS_LIST'
+export const GET_COINS_LIST   = 'coinsList/GET_COINS_LIST'
 export const UPDATE_COINS_LIST     = 'coinsList/UPDATE_COINS_LIST'
 export const FETCHING_COINS_FAILED = 'coinsList/FETCHING_COINS_FAILED'
 
-export const fetchCoinsList = currency => ({
-  type: FETCHING_COINS_LIST,
+export const getCoinsList = currency => ({
+  type: GET_COINS_LIST,
   currency
 })
 
-export const updateCoinsList = coins => ({
+export const updateCoinsList = (data, currency) => ({
   type: UPDATE_COINS_LIST,
-  coins
+  data, currency
 })
 
 export const fetchingCoinsFailed = error => ({
