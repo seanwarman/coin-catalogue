@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, Fragment as Frag } from 'react'
 import { connect } from 'react-redux'
 import {
-  Table
+  Table,
 } from 'antd'
+
+import CoinSelect from './CoinSelect'
 
 import columns from './CoinsList.columns'
 
-import { getCoinsList } from './CoinsList.actions'
+import { getCoinsList, setCurrency } from './CoinsList.actions'
 
 function CoinsList({
   getCoinsList,
@@ -14,28 +16,41 @@ function CoinsList({
   coins,
   currency,
   history,
+  match,
+  setCurrency,
 }) {
 
+  const routeCurrency = match.params.currency || null
+
   useEffect(() => {
-    getCoinsList(currency)
-    const timeId = setTimeout(() => getCoinsList(currency), 60000)
 
-    return () => clearTimeout(timeId)
+    getCoinsList(routeCurrency || currency)
 
-  }, [getCoinsList, currency])
+    const timeId = setInterval(() => {
+      getCoinsList(routeCurrency || currency)
+    }, 60000)
+
+    return () => clearInterval(timeId)
+
+  }, [getCoinsList, currency, routeCurrency])
 
   return (
-    <Table
-      size="small"
-      onRow={({ symbol: coinID }) => ({
-        onClick: () => history.push(`/coin/${coinID}`)
-      })}
-      rowKey="id"
-      loading={fetchingCoins}
-      dataSource={coins}
-      columns={columns()}
-    >
-    </Table>
+    <Frag>
+
+      <CoinSelect />
+
+      <Table
+        size="small"
+        onRow={({ symbol: coinID, name }) => ({
+          onClick: () => history.push(`/coin/${name}/${coinID}/${currency}`)
+        })}
+        rowKey="id"
+        loading={coins === null}
+        dataSource={coins}
+        columns={columns()}
+      >
+      </Table>
+    </Frag>
   )
 }
 
@@ -46,6 +61,7 @@ export default connect(
     currency: coinsList.currency,
   }),
   {
-    getCoinsList
+    getCoinsList,
+    setCurrency
   }
 )(CoinsList)

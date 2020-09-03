@@ -1,11 +1,13 @@
 import React from 'react'
 import { Typography } from 'antd'
-import { icons } from '../../icons'
+import Icon from '../../components/Icon'
 
 const { Text } = Typography
 
 function valueMinusOrPlus(text) {
-  return parseFloat(text.slice(1)) < 0
+  const spaceIndex = text.indexOf(' ')
+
+  return parseFloat(text.slice(spaceIndex)) < 0
 }
 
 function columns() {
@@ -14,10 +16,7 @@ function columns() {
       title: '',
       dataIndex: 'symbol',
       render: text => (
-        icons.find(i => i.symbol === text) ?
-          <img src={`/icons/${text.toLowerCase()}.svg`} alt="crypto-icon" />
-          :
-          <img src={`/icons/generic.svg`} alt="crypto-icon" />
+        <Icon symbol={text} />
       )
     },
     {

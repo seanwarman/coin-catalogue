@@ -7,12 +7,12 @@ export const getCoin = (coinID, currency) => ({
   coinID, currency
 })
 
-export const fetchCoinFailed = error => ({
+export const fetchCoinFailed = (error, message) => ({
   type: FETCH_COIN_FAILED,
-  error
+  error, message
 })
 
-export const updateCoin = (data, coinID, currency) => ({
+export const updateCoin = (data, coinID, name, currency) => ({
   type: UPDATE_COIN,
-  data, coinID, currency
+  data, coinID, name, currency
 })

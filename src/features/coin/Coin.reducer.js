@@ -6,9 +6,10 @@ import {
 
 export default function coinReducer(state = {
 
-  coin: {},
+  data: null,
   fetchingCoin: false,
   error: null,
+  errorMessage: '',
 
 }, action) {
 
@@ -18,13 +19,14 @@ export default function coinReducer(state = {
         ...state,
         fetchingCoin: false,
         error: null,
-        coin: formatCoinData(action)
+        data: formatCoinData(action),
       }
     case FETCH_COIN_FAILED:
       return {
         ...state,
         fetchingCoin: false,
-        error: action.error
+        error: action.error,
+        errorMessage: action.message
       }
     case GET_COIN:
       return {
@@ -41,15 +43,20 @@ export default function coinReducer(state = {
 
 function formatCoinData({ data, coinID, currency }) {
 
-  const coinData = data?.DISPLAY?.COIN || {}
+  const display = data?.DISPLAY || {}
+  const coinData = display[coinID] || {}
   const coin = coinData[currency] || {}
 
-  return {
+  const formatted = {
+    symbol: coinID,
+    toSymbol: currency,
     volumne24H: coin.VOLUME24HOUR,
     supply: coin.SUPPLY,
     marketCap: coin.MKTCAP,
     lowDay: coin.LOWDAY,
     highDay: coin.HIGHDAY
   }
+
+  return formatted
 
 }

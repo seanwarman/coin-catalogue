@@ -33,10 +33,10 @@ async function fetchCoinsFromApi(store, next, action) {
   try {
     result = await axios.get(`https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=${currency}`, config)
   } catch (error) {
-    return next(fetchingCoinsFailed(error))
+    return next(fetchingCoinsFailed(error, error.message))
   }
 
-  if(result.data.Response === 'Error' || !result.data.Data) return next(fetchingCoinsFailed(result.data))
+  if(result.data.Response === 'Error' || !result.data.Data) return next(fetchingCoinsFailed(result, result.data.Message))
 
   return next(updateCoinsList(result.data.Data, currency))
 
@@ -44,8 +44,8 @@ async function fetchCoinsFromApi(store, next, action) {
 
 async function fetchCoinFromApi(store, next, action) {
 
-  const { currency } = store.getState().coinsList
-  const { coinID } = action
+  const { name } = store.getState().coinsList
+  const { coinID, currency } = action
 
   let result
 
@@ -53,15 +53,15 @@ async function fetchCoinFromApi(store, next, action) {
     result = await axios.get(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${coinID}&tsyms=${currency}`, config)
   } catch (error) {
     console.log('There was an error getting the coin data: ', error)
-    return next(fetchCoinFailed(error))
+    return next(fetchCoinFailed(error, error.message))
   }
 
   if(result.data.Response === 'Error') {
     console.log('There was an error getting the coin data: ', result.data)
-    return next(fetchCoinFailed(result.data))
+    return next(fetchCoinFailed(result, result.data.Message))
   }
   
-  return next(updateCoin(result.data, coinID, currency))
+  return next(updateCoin(result.data, coinID, name, currency))
 
 
 }

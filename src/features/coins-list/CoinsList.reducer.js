@@ -1,4 +1,5 @@
 import {
+  SET_CURRENCY,
   GET_COINS_LIST,
   UPDATE_COINS_LIST,
   FETCHING_COINS_FAILED,
@@ -6,13 +7,18 @@ import {
 
 export default function coinsListReducer(state = {
 
-  coins: [],
+  coins: null,
   fetchingCoins: false,
   error: null,
   currency: 'GBP',
 
 }, action) {
   switch (action.type) {
+    case SET_CURRENCY:
+      return {
+        ...state,
+        currency: action.currency
+      }
     case GET_COINS_LIST:
       return {
         ...state,
@@ -39,9 +45,10 @@ export default function coinsListReducer(state = {
 }
 
 function formatCoinsData({ data, currency }) {
-  return data.map(d => {
 
-    const coinInfo = d?.coinInfo || {}
+  const coinsList = data.map(d => {
+
+    const coinInfo = d?.CoinInfo || {}
     const display = d?.DISPLAY || {}
     const displayData = display[currency] || {}
 
@@ -53,6 +60,8 @@ function formatCoinsData({ data, currency }) {
       change24H: displayData.CHANGE24HOUR,
     }
   })
+
+  return coinsList
 
 }
 

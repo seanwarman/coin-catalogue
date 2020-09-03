@@ -9,8 +9,8 @@ const Routes = () => (
     <Suspense fallback={<div>Loading...</div>}>
       <Switch>
 
-        <Route exact path="/" component={CoinsList} />
-        <Route path="/:coinID" component={Coin} />
+        <Route exact path="/:currency?" component={CoinsList} />
+        <Route path="/coin/:name/:coinID/:currency" component={Coin} />
 
       </Switch>
     </Suspense>
