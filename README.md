@@ -1,4 +1,4 @@
-# Coin Catalogue
+![Coin Catalogue](./public/brand.png)
 
 A mini React and Redux app that uses [Crypto Compare](https://min-api.cryptocompare.com)
 to show up-to-date crypto data.
