@@ -1,5 +1,7 @@
-export default function reducer(state, action) {
+import coinsListReducer from './features/coins-list/CoinsList.reducer'
+
+export default function reducer(state = {}, action) {
   return {
-    ...state
+    coinsList: coinsListReducer(state.coinsList, action)
   }
 }
