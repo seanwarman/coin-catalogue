@@ -1,3 +1,4 @@
+import moment from 'moment'
 import {
   SET_CURRENCY,
   GET_COINS_LIST,
@@ -11,6 +12,7 @@ export default function coinsListReducer(state = {
   fetchingCoins: false,
   error: null,
   currency: 'GBP',
+  timeStamp: '',
 
 }, action) {
   switch (action.type) {
@@ -29,6 +31,7 @@ export default function coinsListReducer(state = {
     case UPDATE_COINS_LIST:
       return {
         ...state,
+        timeStamp: moment().format('MMMM Do YYYY, h:mm:ss a'),
         fetchingCoins: false,
         coins: formatCoinsData(action),
         error: null,
